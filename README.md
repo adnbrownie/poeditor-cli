@@ -37,7 +37,9 @@ Create a **poeditor-config.json** in the root directory, and config information 
   "apiToken": "",                     // POEditor api token
   "projectId": 0,                     // project id
   "fileType": "",                     // fileType to upload or download, supports files format (po, pot, mo, xls, csv, resw, resx, android_strings, apple_strings, xliff, properties, key_value_json, json, xmb, xtb)
-  "targetDir": ""                     // directory where translated files live
+  "targetDir": "",                    // directory where translated files live
+  "pullParams": {},                   // (optional) allows to pass any parameters available on the POEditor's export endpoint, full list here: https://poeditor.com/docs/api#projects_export
+  "pushParams": {}                    // (optional) allows to pass any parameters available on the POEditor's upload endpoint, full list here: https://poeditor.com/docs/api#projects_upload
 }
 ```
 

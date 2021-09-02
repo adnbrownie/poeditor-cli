@@ -120,6 +120,10 @@ async function putTermFile(config) {
   formData.append("updating", "terms_translations");
   formData.append("file", fs.createReadStream(config.file));
   formData.append("overwrite", "1");
+  if (config.pushParams) {
+    Object.keys(config.pushParams)
+      .forEach(paramName => formData.set(paramName, config.pushParams[paramName]))
+  }
 
   const res = await api.post("/projects/upload", formData, {
     headers: {

@@ -1,3 +1,9 @@
+## 1.15.0
+
+`2021-09-02`
+
+- 🌟 Added possibility to pass custom parameters to pull or push API requests
+
 ## 1.14.0
 
 `2021-03-11`

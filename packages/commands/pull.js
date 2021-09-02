@@ -64,6 +64,7 @@ async function getTermFiles(config) {
       id: config.projectId,
       language: lang.code,
       type: tempFileType,
+      ...(config.pullParams || {})
     };
 
     try {
