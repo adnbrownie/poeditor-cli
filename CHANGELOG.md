@@ -3,6 +3,7 @@
 `2021-09-02`
 
 - 🌟 Added possibility to pass custom parameters to pull or push API requests
+- 🌟 Added syncTerms option support
 
 ## 1.14.0
 

@@ -38,6 +38,8 @@ Create a **poeditor-config.json** in the root directory, and config information 
   "projectId": 0,                     // project id
   "fileType": "",                     // fileType to upload or download, supports files format (po, pot, mo, xls, csv, resw, resx, android_strings, apple_strings, xliff, properties, key_value_json, json, xmb, xtb)
   "targetDir": "",                    // directory where translated files live
+  "syncTerms": true,                  // (optional) set it to true if you want to sync your terms (terms that are not found in the uploaded file will be deleted from project and the new ones added)
+  "sourceLang": "en-US",              // (optional, required when syncTerms set to true) language to sync the terms from
   "pullParams": {},                   // (optional) allows to pass any parameters available on the POEditor's export endpoint, full list here: https://poeditor.com/docs/api#projects_export
   "pushParams": {}                    // (optional) allows to pass any parameters available on the POEditor's upload endpoint, full list here: https://poeditor.com/docs/api#projects_upload
 }
