@@ -60,7 +60,7 @@ function push() {
 
 async function putTermFiles(config) {
   const targetDir = path.resolve(cwd, config.targetDir);
-  const paths = await globby([targetDir]);
+  let paths = await globby([targetDir]);
   const sleep = (func, timeout) => {
     return new Promise(async (resolve) => {
       setTimeout(() => {
@@ -69,12 +69,24 @@ async function putTermFiles(config) {
       }, timeout);
     });
   };
+  
+  paths = paths.map(url => ({ url, parsedUrl: path.parse(url) }));
 
-  const promises = paths.map((url, index) => {
+  if (config.syncTerms) {
+    // if syncTerms === true make sure sourceLang will be the last in the paths array
+    // (we want to sourceLang terms be synced as a last request so they won't get overwritten by terms from other locale files)
+    paths.sort((a, b) => {
+      if (a.parsedUrl.name === config.sourceLang) return 1;
+      if (b.parsedUrl.name === config.sourceLang) return -1;
+      return 0;
+    });
+  }
+
+  const promises = paths.map(({ url, parsedUrl }, index) => {
     return new Promise(async (resolve, reject) => {
-      let timeout = index * 30000 + 10;
+      const timeout = index * 30000 + 10;
       return sleep(async () => {
-        if (path.parse(url).ext.slice(1) !== fileTypeMap[config.fileType]) {
+        if (parsedUrl.ext.slice(1) !== fileTypeMap[config.fileType]) {
           console.log(
             chalk.red(
               `\n 😭  Incorrect fileType, ${
@@ -89,7 +101,7 @@ async function putTermFiles(config) {
           await putTermFile({
             ...config,
             file: url,
-            language: path.parse(url).name,
+            language: parsedUrl.name,
           });
           resolve(null);
         } catch (err) {
@@ -120,7 +132,7 @@ async function putTermFile(config) {
   formData.append("updating", "terms_translations");
   formData.append("file", fs.createReadStream(config.file));
   formData.append("overwrite", "1");
-  
+
   if (config.syncTerms && config.sourceLang && config.language === config.sourceLang) {
     formData.append('sync_terms', '1');
   }
